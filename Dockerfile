@@ -10,8 +10,8 @@ COPY default.vcl /etc/varnish/default.vcl
 RUN chmod 644 /etc/varnish/default.vcl
 
 # Expose Varnish port.
-EXPOSE 80
+EXPOSE 8000
 
 # Start Varnish with the default VCL.
-CMD ["varnishd", "-F", "-f", "/etc/varnish/default.vcl", "-a", ":80"]
+CMD ["varnishd", "-F", "-f", "/etc/varnish/default.vcl", "-a", ":8000"]
 
