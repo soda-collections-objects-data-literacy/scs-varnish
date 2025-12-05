@@ -6,9 +6,8 @@ LABEL org.opencontainers.image.description="Varnish cache server with default VC
 # Copy VCL template
 COPY default.vcl.template /etc/varnish/default.vcl.template
 
-# Copy entrypoint script
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+# Copy entrypoint script with execute permissions
+COPY --chmod=+x docker-entrypoint.sh /docker-entrypoint.sh
 
 # Set default environment variables
 ENV VARNISH_BACKEND_HOST=drupal \
