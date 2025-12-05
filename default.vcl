@@ -3,8 +3,8 @@ vcl 4.1;
 import std;
 
 backend default {
-    .host = "drupal";
-    .port = "80";
+    .host = "${VARNISH_BACKEND_HOST}";
+    .port = "${VARNISH_BACKEND_PORT}";
     .connect_timeout = 600s;
     .first_byte_timeout = 600s;
     .between_bytes_timeout = 600s;
