@@ -3,11 +3,6 @@ FROM varnish:7.6
 LABEL org.opencontainers.image.source=https://github.com/soda-collections-objects-data-literacy/scs-varnish.git
 LABEL org.opencontainers.image.description="Varnish cache server with default VCL configuration for Drupal 11."
 
-# Install envsubst for variable substitution
-RUN apt-get update && \
-  apt-get install -y gettext-base && \
-  rm -rf /var/lib/apt/lists/*
-
 # Copy VCL template
 COPY default.vcl.template /etc/varnish/default.vcl.template
 
