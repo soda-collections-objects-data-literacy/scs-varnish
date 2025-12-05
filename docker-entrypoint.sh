@@ -17,9 +17,10 @@ if [ -z "${VARNISH_BACKEND_PORT}" ]; then
 fi
 
 # Substitute environment variables in VCL template
-envsubst '${VARNISH_BACKEND_HOST} ${VARNISH_BACKEND_PORT}' \
-  < /etc/varnish/default.vcl.template \
-  > /etc/varnish/default.vcl
+# Use sed for reliable substitution
+sed -e "s|\${VARNISH_BACKEND_HOST}|${VARNISH_BACKEND_HOST}|g" \
+    -e "s|\${VARNISH_BACKEND_PORT}|${VARNISH_BACKEND_PORT}|g" \
+    /etc/varnish/default.vcl.template > /etc/varnish/default.vcl
 
 echo "VCL configuration after substitution:"
 grep -A 2 "backend default" /etc/varnish/default.vcl || true
