@@ -25,13 +25,6 @@ sed -e "s|\${VARNISH_BACKEND_HOST}|${VARNISH_BACKEND_HOST}|g" \
 echo "VCL configuration after substitution:"
 grep -A 2 "backend default" /etc/varnish/default.vcl || true
 
-# Validate VCL
-echo "Validating VCL configuration..."
-varnishd -C -f /etc/varnish/default.vcl || {
-    echo "VCL validation failed!"
-    exit 1
-}
-
 echo "Starting Varnish..."
 exec varnishd -F \
   -f /etc/varnish/default.vcl \
