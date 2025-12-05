@@ -17,8 +17,8 @@ RUN chmod +x /docker-entrypoint.sh
 
 # Set default environment variables
 ENV VARNISH_BACKEND_HOST=drupal \
-  VARNISH_BACKEND_PORT=80 \
-  VARNISH_SIZE=256M
+    VARNISH_BACKEND_PORT=80 \
+    VARNISH_SIZE=256M
 
 EXPOSE 80 8443
 
