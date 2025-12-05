@@ -6,6 +6,9 @@ LABEL org.opencontainers.image.description="Varnish cache server with default VC
 # Copy VCL template
 COPY default.vcl.template /etc/varnish/default.vcl.template
 
+# Ensure /etc/varnish is writable by varnish user
+RUN chown -R varnish:varnish /etc/varnish
+
 # Copy entrypoint script with execute permissions
 COPY --chmod=+x docker-entrypoint.sh /docker-entrypoint.sh
 
