@@ -1,4 +1,4 @@
-name: Publish SCS Manager Docker Image
+name: Publish SCS Varnish Image
 
 on:
   push:
