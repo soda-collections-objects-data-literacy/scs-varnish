@@ -18,6 +18,7 @@ jobs:
     permissions:
       packages: write
     steps:
+      - uses: actions/checkout@v4
       - uses: docker/metadata-action@v5
         id: meta
         with:
@@ -38,6 +39,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
       - uses: docker/build-push-action@v6
         with:
+          context: ${{ env.CONTEXT_DIRECTORY }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ env.PLATFORMS }}
