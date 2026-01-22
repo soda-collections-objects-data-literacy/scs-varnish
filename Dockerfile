@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.source=https://github.com/soda-collections-object
 LABEL org.opencontainers.image.description="Varnish cache server with default VCL configuration for Drupal 11."
 
 # Copy VCL template
-COPY default.vcl.template /etc/varnish/default.vcl.template
+COPY default.vcl.tpl /etc/varnish/default.vcl.tpl
 
 # Copy entrypoint script with execute permissions
 COPY --chmod=+x docker-entrypoint.sh /docker-entrypoint.sh
