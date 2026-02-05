@@ -191,6 +191,107 @@ sub vcl_backend_response {
 }
 
 # -------------------------
+# BACKEND ERROR
+# -------------------------
+sub vcl_backend_error {
+    # Return a custom error page when backend fetch fails.
+    set beresp.http.Content-Type = "text/html; charset=utf-8";
+    set beresp.status = 503;
+    synthetic( {"<!DOCTYPE html>
+<html>
+<head>
+    <title>Backend Not Ready</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        h1 {
+            color: #d32f2f;
+            margin-top: 0;
+        }
+        p {
+            line-height: 1.6;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Backend Not Ready</h1>
+        <p>Backend not ready yet, check container health on application page.</p>
+    </div>
+</body>
+</html>"} );
+    return (deliver);
+}
+
+# -------------------------
+# SYNTH
+# -------------------------
+sub vcl_synth {
+    # Format synthetic responses (like PURGE/BAN errors).
+    set resp.http.Content-Type = "text/html; charset=utf-8";
+    synthetic( {"<!DOCTYPE html>
+<html>
+<head>
+    <title>"} + resp.status + " " + resp.reason + {"</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        h1 {
+            color: #d32f2f;
+            margin-top: 0;
+        }
+        p {
+            line-height: 1.6;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>"} + resp.status + " " + resp.reason + {"</h1>
+        <p>"} + resp.reason + {"</p>
+    </div>
+</body>
+</html>"} );
+    return (deliver);
+}
+
+# -------------------------
 # DELIVER
 # -------------------------
 sub vcl_deliver {
