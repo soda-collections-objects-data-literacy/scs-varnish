@@ -16,17 +16,10 @@ if [ -z "${VARNISH_BACKEND_PORT}" ]; then
   exit 1
 fi
 
-# Substitute environment variables in VCL template
-# Use sed for reliable substitution
+# Subsititute wit env
 sed -e "s|\${VARNISH_BACKEND_HOST}|${VARNISH_BACKEND_HOST}|g" \
     -e "s|\${VARNISH_BACKEND_PORT}|${VARNISH_BACKEND_PORT}|g" \
     /etc/varnish/default.vcl.tpl > /etc/varnish/default.vcl
 
-echo "VCL configuration after substitution:"
-grep -A 2 "backend default" /etc/varnish/default.vcl || true
-
 echo "Starting Varnish..."
-exec varnishd -F \
-  -f /etc/varnish/default.vcl \
-  -a :80 \
-  -s malloc,${VARNISH_SIZE}
+exec /usr/local/bin/docker-varnish-entrypoint "$@"

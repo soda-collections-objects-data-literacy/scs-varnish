@@ -3,20 +3,13 @@ FROM varnish:7.6
 LABEL org.opencontainers.image.source=https://github.com/soda-collections-objects-data-literacy/scs-varnish.git
 LABEL org.opencontainers.image.description="Varnish cache server with default VCL configuration for Drupal 11."
 
-# Copy VCL template
+# Change permissions for to allow overriding default.vcl in entrypoint
+USER root
+RUN chown varnish:varnish default.vcl
+USER varnish
+
 COPY default.vcl.tpl /etc/varnish/default.vcl.tpl
 
-# Copy entrypoint script with execute permissions
-COPY --chmod=+x docker-entrypoint.sh /docker-entrypoint.sh
+COPY --chmod=+x entrypoint.sh /entrypoint.sh
 
-# Set default environment variables
-ENV VARNISH_BACKEND_HOST=drupal \
-    VARNISH_BACKEND_PORT=80 \
-    VARNISH_SIZE=256M
-
-# Ensure entrypoint runs as root to configure Varnish
-USER root
-
-EXPOSE 80 8443
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
