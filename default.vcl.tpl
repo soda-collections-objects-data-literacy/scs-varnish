@@ -10,8 +10,8 @@ backend default {
     .port = "${VARNISH_BACKEND_PORT}";
 
     .connect_timeout = 5s;
-    .first_byte_timeout = 60s;
-    .between_bytes_timeout = 30s;
+    .first_byte_timeout = 600s;
+    .between_bytes_timeout = 600s;
 
     .max_connections = 800;
 }

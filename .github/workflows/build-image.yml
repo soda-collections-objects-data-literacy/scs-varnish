@@ -8,7 +8,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  # GHCR package name (wisski-base-stack compose); repo is scs-varnish-image.
+  IMAGE_NAME: soda-collections-objects-data-literacy/scs-varnish
   PLATFORMS: linux/amd64
   CONTEXT_DIRECTORY: .
 
